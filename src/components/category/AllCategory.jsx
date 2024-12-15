@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import CategoryModal from "./CategoryModal";
+import UpdateCategoryModal from "./UpdateCategoryModal";
 import StoreContext from "../../context/StoreContext";
 
 const AllCategory = ({ categories }) => {
@@ -22,7 +22,7 @@ const AllCategory = ({ categories }) => {
     <section>
       <div>
         {isModalOpen && category && (
-          <CategoryModal
+          <UpdateCategoryModal
             category={category}
             onClose={() => setIsModalOpen(false)}
           />

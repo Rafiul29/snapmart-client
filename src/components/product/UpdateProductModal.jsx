@@ -1,15 +1,16 @@
 import { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import StoreContext from "../../context/StoreContext";
+import Error from "../ui/Error";
 
-const CategoryModal = ({ onClose, category }) => {
-  const { updateCategory } = useContext(StoreContext);
+const UpdateProductModal = ({ onClose, category }) => {
+  const { updateCategory, loadingCategories, errorCategories } =
+    useContext(StoreContext);
 
   const [name, setName] = useState(category?.name);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-     await updateCategory({ id: category?.id, name });
+    await updateCategory({ id: category?.id, name });
   };
 
   useEffect(() => {
@@ -53,7 +54,7 @@ const CategoryModal = ({ onClose, category }) => {
 
         <div className="flex justify-center">
           <div className="w-full px-5 py-8">
-            {/* {error && <p className="text-red-500 mb-4">{error}</p>} */}
+            { errorCategories && <Error message={errorCategories}/>}
             <form className="space-y-4" onSubmit={handleSubmit}>
               <div className="relative">
                 <label
@@ -75,10 +76,10 @@ const CategoryModal = ({ onClose, category }) => {
 
               <button
                 type="submit"
-                // disabled={isLoading}
+                disabled={loadingCategories}
                 className={`text-white bg-cyan-500 hover:bg-cyan-600 focus:ring-4 focus:outline-none focus:ring-cyan-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center `}
               >
-                {/* {isLoading ? "Updating..." : "Submit"} */}
+                {loadingCategories ? "Updating..." : "Submit"}
               </button>
             </form>
           </div>
@@ -98,4 +99,4 @@ const CategoryModal = ({ onClose, category }) => {
   );
 };
 
-export default CategoryModal;
+export default UpdateProductModal;
