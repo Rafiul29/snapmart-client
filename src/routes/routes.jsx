@@ -9,6 +9,8 @@ import Stock from "../pages/Stock";
 
 import { DashboardLayout } from "../Layout/DashboardLayout";
 import NotFound from "../pages/NotFound";
+import CreateProduct from "../components/product/CreateProduct";
+import CreateCategory from "../components/category/CreateCategory";
 
 export const router = createBrowserRouter([
   {
@@ -27,7 +29,9 @@ export const router = createBrowserRouter([
     errorElement: <Error />, // Error page
     children: [
       { path: "/dashboard", element: <Product /> },
+      { path: "/dashboard/create-product", element: <CreateProduct /> },
       { path: "/dashboard/category", element: <Category /> },
+      { path: "/dashboard/create-category", element: <CreateCategory /> },
       { path: "/dashboard/stock", element: <Stock /> },
     ],
   },

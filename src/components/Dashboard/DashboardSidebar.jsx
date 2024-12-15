@@ -48,7 +48,7 @@ const DashboardSidebar = () => {
                 to="#"
                 className="flex items-center text-sm  bg-cyan-100 p-2 text-gray-900 transition duration-75 rounded-lg hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
               >
-               ALL Products
+               All Products
               </Link>
             </li>
             <li>
@@ -93,15 +93,15 @@ const DashboardSidebar = () => {
           <ul className="py-2 space-y-2 pl-3">
             <li>
               <Link
-                to="#"
+                to="/dashboard/category"
                 className="flex items-center text-sm p-2  bg-cyan-100 text-gray-900 transition duration-75 rounded-lg hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
               >
-                 ALL Category 
+                 All Category 
               </Link>
             </li>
             <li>
               <Link
-                to="#"
+                to="/dashboard/create-category"
                 className="flex items-center text-sm p-2  bg-cyan-100 text-gray-900 transition duration-75 rounded-lg hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
               >
                 Create a new Category

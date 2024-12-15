@@ -1,8 +1,7 @@
-import React from 'react'
 
-const Error = () => {
+const Error = ({message}) => {
   return (
-    <div>Error</div>
+    <div className="bg-rose-200 text-rose-600 rounded-md py-1 px-3">{message}</div>
   )
 }
 

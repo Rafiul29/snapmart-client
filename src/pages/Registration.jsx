@@ -1,6 +1,10 @@
 import { Link, useNavigate } from "react-router-dom";
 
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import AuthContext from "../context/AuthContext";
+import Error from "../components/ui/Error";
+import ButtonLoading from "../components/ui/ButtonLoading";
+
 
 const Registration = () => {
   const [first_name, setFirstName] = useState("");
@@ -10,17 +14,28 @@ const Registration = () => {
   const [password, setPassword] = useState("");
   const [confirm_password, setConfirmPassword] = useState("");
 
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
+  const { register, loading, error } = useContext(AuthContext);
+
+  const [response,setResponse]=useState('')
 
   //submit form
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
-    setError("");
-    setSuccess("");
+    const credentials = {first_name, last_name, username, email, password, confirm_password };
+    try {
+    const res = await register(credentials);
+    setResponse(res)
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   const navigate = useNavigate();
+  useEffect(() => {
+    if (response) {
+      navigate("/");
+    }
+  });
 
   return (
     <section className="min-h-screen flex justify-center items-center ">
@@ -135,12 +150,15 @@ const Registration = () => {
               />
             </div>
           </div>
+
+          {error && <Error message={error} />}
+
           <div className="flex flex-col gap-3">
             <button
               type="submit"
               className="text-white bg-cyan-500 hover:bg-cyan-600 focus:ring-4 focus:outline-none focus:ring-cyan-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center dark:bg-cyan-600 dark:hover:bg-cyan-700 dark:focus:ring-cyan-800"
             >
-              Submit
+              {loading ? <ButtonLoading /> : "Submit"}
             </button>
             <p>
               Already have an account?

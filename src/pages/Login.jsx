@@ -1,23 +1,33 @@
 import { Link, useNavigate } from "react-router-dom";
 
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import AuthContext from "../context/AuthContext";
+import Error from "../components/ui/Error";
+import ButtonLoading from "../components/ui/ButtonLoading";
 
 const Login = () => {
+  const { login, user, loading, error } = useContext(AuthContext);
 
   const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
 
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
-
+  const navigate = useNavigate();
   //submit form
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
-    setSuccess("");
+    const credentials = { username, password };
+    try {
+      await login(credentials);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
-  const navigate = useNavigate();
+  useEffect(() => {
+    if (user?.user_id) {
+      navigate("/dashboard");
+    }
+  });
 
   return (
     <section className="min-h-screen flex justify-center items-center ">
@@ -33,7 +43,7 @@ const Login = () => {
             >
               User Name
             </label>
-            
+
             <input
               type="text"
               id="username"
@@ -63,12 +73,15 @@ const Login = () => {
             />
           </div>
 
+          {error && <Error message={error} />}
+
           <div className="flex flex-col gap-3">
             <button
+              disabled={loading}
               type="submit"
               className="text-white bg-cyan-500 hover:bg-cyan-600 focus:ring-4 focus:outline-none focus:ring-cyan-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center dark:bg-cyan-600 dark:hover:bg-cyan-700 dark:focus:ring-cyan-800"
             >
-              Submit
+              {loading ? <ButtonLoading /> : "Submit"}
             </button>
             <p>
               <span>Don't have an account? </span>

@@ -1,16 +1,27 @@
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import DashboardSidebar from "../components/Dashboard/DashboardSidebar";
-import { useState } from "react";
+import { useContext, useState } from "react";
 
-import { FaBell, FaEnvelope, FaUser } from "react-icons/fa";
 import Logo from "../assets/logo.png";
 import DashboardSidebarIcon from "../components/Dashboard/DashBoardSideBarIcon";
+import AuthContext from "../context/AuthContext";
+
 export const DashboardLayout = () => {
+
+  const { logout,  } = useContext(AuthContext);
+
   const [isToggleSidebar, setToggleSidebar] = useState(false);
 
   const toggleSidebar = () => {
     setToggleSidebar(!isToggleSidebar);
   };
+
+  const navigate = useNavigate();
+
+  const handleLogout =async()=>{
+    await logout(); 
+    navigate('/')
+  }
 
   return (
     <>
@@ -42,7 +53,7 @@ export const DashboardLayout = () => {
                 </button> */}
               </div>
 
-              <button className=" px-5 py-2 rounded-md   text-cyan-900 border-2 border-cyan-500 hover:border-cyan-500 hover:text-cyan-100 hover:bg-cyan-500 duration-500 ">
+              <button onClick={handleLogout} className=" px-5 py-2 rounded-md   text-cyan-900 border-2 border-cyan-500 hover:border-cyan-500 hover:text-cyan-100 hover:bg-cyan-500 duration-500 ">
                 Logout
               </button>
             </nav>
