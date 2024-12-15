@@ -1,23 +1,10 @@
-import { Route, Routes } from "react-router-dom";
-import Login from "./pages/Login";
-import Registration from "./pages/Registration";
-import Product from "./pages/Product";
-import Category from "./pages/Category";
-import Stock from "./pages/Stock";
+import {  RouterProvider } from "react-router-dom";
+import { router } from './routes/routes';
 
 function App() {
   return (
     <>
-      <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/register" element={<Registration />} />
-
-        <Route path="/product" element={<Product />} />
-        <Route path="/category" element={<Category />} />
-        <Route path="/product" element={<Product />} />
-        <Route path="/stock" element={<Stock />} />
-
-      </Routes>
+        <RouterProvider router={router} />
     </>
   );
 }
