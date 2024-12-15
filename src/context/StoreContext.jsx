@@ -23,7 +23,7 @@ export const StoreProvider = ({ children }) => {
       setCategories(response.data.data);
     } catch (err) {
       setErrorCategories(
-        err.response?.data?.message || "Error fetching categories"
+        err.response?.data?.error || "Error fetching categories"
       );
     } finally {
       setLoadingCategories(false);
@@ -36,7 +36,7 @@ export const StoreProvider = ({ children }) => {
     setErrorCategories(null);
     try {
       const response = await api.post("/store/categories/", data);
-      fetchCategories(); 
+      fetchCategories();
       return response.data;
     } catch (err) {
       setErrorCategories(
@@ -53,7 +53,7 @@ export const StoreProvider = ({ children }) => {
     setErrorCategories(null);
     try {
       const response = await api.get(`/store/categories/${id}/`);
-      setCategory(response.data.data)
+      setCategory(response.data.data);
       return response.data;
     } catch (err) {
       setErrorCategories(
@@ -69,8 +69,8 @@ export const StoreProvider = ({ children }) => {
     setLoadingCategories(true);
     setErrorCategories(null);
     try {
-      const response = await api.put(`/store/categories/${id}/`, {name});
-      fetchCategories(); 
+      const response = await api.put(`/store/categories/${id}/`, { name });
+      fetchCategories();
       return response.data;
     } catch (err) {
       setErrorCategories(
@@ -81,22 +81,22 @@ export const StoreProvider = ({ children }) => {
     }
   };
 
-    // Delete Category
-    const deleteCategory = async (id) => {
-      setLoadingCategories(true);
-      setErrorCategories(null);
-      try {
-        const response = await api.delete(`/store/categories/${id}/`);
-        fetchCategories(); // Re-fetch categories after creating a new one
-        return response.data;
-      } catch (err) {
-        setErrorCategories(
-          err.response?.data?.error || "Error creating category"
-        );
-      } finally {
-        setLoadingCategories(false);
-      }
-    };
+  // Delete Category
+  const deleteCategory = async (id) => {
+    setLoadingCategories(true);
+    setErrorCategories(null);
+    try {
+      const response = await api.delete(`/store/categories/${id}/`);
+      fetchCategories(); // Re-fetch categories after creating a new one
+      return response.data;
+    } catch (err) {
+      setErrorCategories(
+        err.response?.data?.error || "Error creating category"
+      );
+    } finally {
+      setLoadingCategories(false);
+    }
+  };
 
   // Fetch Products
   const fetchProducts = async () => {
@@ -106,9 +106,7 @@ export const StoreProvider = ({ children }) => {
       const response = await api.get("/store/products/");
       setProducts(response.data.data);
     } catch (err) {
-      setErrorProducts(
-        err.response?.data?.message || "Error fetching products"
-      );
+      setErrorProducts(err.response?.data?.error || "Error fetching products");
     } finally {
       setLoadingProducts(false);
     }
@@ -123,7 +121,37 @@ export const StoreProvider = ({ children }) => {
       fetchProducts(); // Re-fetch products after creating a new one
       return response.data;
     } catch (err) {
-      setErrorProducts(err.response?.data?.message || "Error creating product");
+      setErrorProducts(err.response?.data?.error || "Error creating product");
+    } finally {
+      setLoadingProducts(false);
+    }
+  };
+
+  // Create Product
+  const updateProduct = async ({id,data}) => {
+    setLoadingProducts(true);
+    setErrorProducts(null);
+    try {
+      const response = await api.put(`/store/products/${id}/`,data);
+      fetchProducts(); // Re-fetch products after creating a new one
+      return response.data;
+    } catch (err) {
+      setErrorProducts(err.response?.data?.error || "Error creating product");
+    } finally {
+      setLoadingProducts(false);
+    }
+  };
+
+  // Delete Product
+  const deleteProduct = async (id) => {
+    setLoadingProducts(true);
+    setErrorProducts(null);
+    try {
+      const response = await api.delete(`/store/products/${id}/`);
+      fetchProducts(); // Re-fetch products after creating a new one
+      return response.data;
+    } catch (err) {
+      setErrorProducts(err.response?.data?.error || "Error creating product");
     } finally {
       setLoadingProducts(false);
     }
@@ -143,6 +171,10 @@ export const StoreProvider = ({ children }) => {
         products,
         fetchProducts,
         createProduct,
+        updateProduct,
+        deleteProduct,
+
+
         loadingCategories,
         errorCategories,
         loadingProducts,
