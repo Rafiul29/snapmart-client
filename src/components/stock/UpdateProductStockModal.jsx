@@ -1,32 +1,27 @@
 import { useContext, useEffect, useState } from "react";
 import StoreContext from "../../context/StoreContext";
-import Error from "../ui/Error";
 
-const UpdateProductModal = ({ onClose, product }) => {
-  const { updateProduct, fetchCategories, categories } =
-    useContext(StoreContext);
 
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [price, setPrice] = useState("");
-  const [category_id, setCategory_id] = useState("");
+const UpdateProductStockModal = ({ onClose, stock }) => {
+  const { updateStock, products, fetchProducts } = useContext(StoreContext);
+
+  const [quantity, setQuantity] = useState("");
+  const [product_id, setProduct_id] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await updateProduct({
-      id: product?.id,
-      data: { name, description, price, category_id },
+    await updateStock({
+      id: stock?.id,
+      data: { quantity, product_id },
     });
   };
 
   useEffect(() => {
-    if (product) {
-      setName(product?.name);
-      setDescription(product?.description);
-      setPrice(product?.price);
+    if (stock) {
+      setQuantity(stock.quantity);
     }
-    fetchCategories();
-  }, [product]);
+    fetchProducts();
+  }, [stock]);
 
   return (
     <div
@@ -65,65 +60,29 @@ const UpdateProductModal = ({ onClose, product }) => {
           <form className="space-y-4" onSubmit={handleSubmit}>
             <div className="relative">
               <label
-                htmlFor="name"
+                htmlFor="product"
                 className="block mb-1 text-sm font-medium text-gray-900 dark:text-white"
               >
-                Name
-              </label>
-              <input
-                type="text"
-                id="name"
-                className="shadow-sm bg-gray-50 border border-cyan-300 text-gray-900 text-sm rounded-lg focus:ring-cyan-500 focus:border-cyan-500 block w-full p-2.5 dark:bg-gray-700 dark:border-cyan-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-cyan-500 dark:focus:border-cyan-500"
-                placeholder="Enter product name"
-                required
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
-            </div>
-            <div className="relative">
-              <label
-                htmlFor="description"
-                className="block mb-1 text-sm font-medium text-gray-900 dark:text-white"
-              >
-                Product Description
-              </label>
-              <textarea
-                type="email"
-                id="email"
-                className="shadow-sm bg-gray-50 border border-cyan-300 text-gray-900 text-sm rounded-lg focus:ring-cyan-500 focus:border-cyan-500 block w-full p-2.5 dark:bg-gray-700 dark:border-cyan-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-cyan-500 dark:focus:border-cyan-500"
-                rows={5}
-                placeholder="Enter product description"
-                required
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-              ></textarea>
-            </div>
-
-            <div className="relative">
-              <label
-                htmlFor="category"
-                className="block mb-1 text-sm font-medium text-gray-900 dark:text-white"
-              >
-                Category
+                Product Name
               </label>
               <select
-                id="category"
+                id="product"
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                onChange={(e) => setCategory_id(e.target.value)}
-                value={category_id} // Controlled component to bind the selected value
+                onChange={(e) => setProduct_id(e.target.value)}
+                value={product_id}
               >
                 <option value="" disabled>
-                  Select a category
+                  Select a Product
                 </option>
-                {categories && categories.length > 0 ? (
-                  categories.map((category) => (
-                    <option key={category.id} value={category.id}>
-                      {category.name}
+                {products && products.length > 0 ? (
+                  products.map((product) => (
+                    <option key={product.id} value={product.id}>
+                      {product.name}
                     </option>
                   ))
                 ) : (
                   <option value="" disabled>
-                    No categories available
+                    No products available
                   </option>
                 )}
               </select>
@@ -131,19 +90,19 @@ const UpdateProductModal = ({ onClose, product }) => {
 
             <div className="relative">
               <label
-                htmlFor="price"
+                htmlFor="quantity"
                 className="block mb-1 text-sm font-medium text-gray-900 dark:text-white"
               >
-                Price
+                Quantity
               </label>
               <input
-                type="number"
-                id="price"
+                type="text"
+                id="quantity"
                 className="shadow-sm bg-gray-50 border border-cyan-300 text-gray-900 text-sm rounded-lg focus:ring-cyan-500 focus:border-cyan-500 block w-full p-2.5 dark:bg-gray-700 dark:border-cyan-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-cyan-500 dark:focus:border-cyan-500"
-                placeholder="Enter price"
+                placeholder="Enter product name"
                 required
-                value={price}
-                onChange={(e) => setPrice(e.target.value)}
+                value={quantity}
+                onChange={(e) => setQuantity(e.target.value)}
               />
             </div>
 
@@ -172,4 +131,4 @@ const UpdateProductModal = ({ onClose, product }) => {
   );
 };
 
-export default UpdateProductModal;
+export default UpdateProductStockModal;

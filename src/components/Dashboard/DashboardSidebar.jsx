@@ -141,15 +141,15 @@ const DashboardSidebar = () => {
           <ul className="py-2 space-y-2 pl-3">
             <li>
               <Link
-                to="#"
+                to="/dashboard/stock"
                 className="flex items-center text-sm p-2 bg-cyan-100 text-gray-900 transition duration-75 rounded-lg hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
               >
-                 ALL Product Stock
+                 All Product Stock
               </Link>
             </li>
             <li>
               <Link
-                to="#"
+                to="/dashboard/create-stock"
                 className="flex items-center text-sm p-2  bg-cyan-100  text-gray-900 transition duration-75 rounded-lg hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
               >
                 Create Product Stock

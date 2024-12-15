@@ -7,12 +7,15 @@ export const StoreProvider = ({ children }) => {
   const [categories, setCategories] = useState([]);
   const [category, setCategory] = useState([]);
   const [products, setProducts] = useState([]);
+  const [stocks, setStocks] = useState([]);
 
-  // Loading and error states for categories and products
+  // Loading and error states
   const [loadingCategories, setLoadingCategories] = useState(false);
   const [errorCategories, setErrorCategories] = useState(null);
   const [loadingProducts, setLoadingProducts] = useState(false);
   const [errorProducts, setErrorProducts] = useState(null);
+  const [loadingStocks, setLoadingStocks] = useState(false);
+  const [errorStocks, setErrorStocks] = useState(null);
 
   // Fetch Categories
   const fetchCategories = async () => {
@@ -40,7 +43,7 @@ export const StoreProvider = ({ children }) => {
       return response.data;
     } catch (err) {
       setErrorCategories(
-        err.response?.data?.error || "Error creating category"
+        err.response?.data?.error ||  err.response?.data?.detail || "Error creating category"
       );
     } finally {
       setLoadingCategories(false);
@@ -57,7 +60,7 @@ export const StoreProvider = ({ children }) => {
       return response.data;
     } catch (err) {
       setErrorCategories(
-        err.response?.data?.error || "Error creating category"
+        err.response?.data?.error || "Error fetching category"
       );
     } finally {
       setLoadingCategories(false);
@@ -74,7 +77,7 @@ export const StoreProvider = ({ children }) => {
       return response.data;
     } catch (err) {
       setErrorCategories(
-        err.response?.data?.error || "Error creating category"
+        err.response?.data?.error || "Error updating category"
       );
     } finally {
       setLoadingCategories(false);
@@ -87,11 +90,11 @@ export const StoreProvider = ({ children }) => {
     setErrorCategories(null);
     try {
       const response = await api.delete(`/store/categories/${id}/`);
-      fetchCategories(); // Re-fetch categories after creating a new one
+      fetchCategories();
       return response.data;
     } catch (err) {
       setErrorCategories(
-        err.response?.data?.error || "Error creating category"
+        err.response?.data?.error || "Error deleting category"
       );
     } finally {
       setLoadingCategories(false);
@@ -118,25 +121,25 @@ export const StoreProvider = ({ children }) => {
     setErrorProducts(null);
     try {
       const response = await api.post("/store/products/", data);
-      fetchProducts(); // Re-fetch products after creating a new one
+      fetchProducts();
       return response.data;
     } catch (err) {
-      setErrorProducts(err.response?.data?.error || "Error creating product");
+      setErrorProducts(err.response?.data?.error ||  err.response?.data?.detail || "Error creating product");
     } finally {
       setLoadingProducts(false);
     }
   };
 
-  // Create Product
-  const updateProduct = async ({id,data}) => {
+  // Update Product
+  const updateProduct = async ({ id, data }) => {
     setLoadingProducts(true);
     setErrorProducts(null);
     try {
-      const response = await api.put(`/store/products/${id}/`,data);
-      fetchProducts(); // Re-fetch products after creating a new one
+      const response = await api.put(`/store/products/${id}/`, data);
+      fetchProducts();
       return response.data;
     } catch (err) {
-      setErrorProducts(err.response?.data?.error || "Error creating product");
+      setErrorProducts(err.response?.data?.error || "Error updating product");
     } finally {
       setLoadingProducts(false);
     }
@@ -148,12 +151,71 @@ export const StoreProvider = ({ children }) => {
     setErrorProducts(null);
     try {
       const response = await api.delete(`/store/products/${id}/`);
-      fetchProducts(); // Re-fetch products after creating a new one
+      fetchProducts();
       return response.data;
     } catch (err) {
-      setErrorProducts(err.response?.data?.error || "Error creating product");
+      setErrorProducts(err.response?.data?.error || "Error deleting product");
     } finally {
       setLoadingProducts(false);
+    }
+  };
+
+  // Fetch Stocks
+  const fetchStocks = async () => {
+    setLoadingStocks(true);
+    setErrorStocks(null);
+    try {
+      const response = await api.get("/store/stocks/");
+      setStocks(response.data.data);
+    } catch (err) {
+      setErrorStocks(err.response?.data?.error || "Error fetching stocks");
+    } finally {
+      setLoadingStocks(false);
+    }
+  };
+
+  // Create Stock
+  const createStock = async (data) => {
+    setLoadingStocks(true);
+    setErrorStocks(null);
+    try {
+      const response = await api.post("/store/stocks/", data);
+      fetchStocks();
+      return response.data;
+    } catch (err) {
+      setErrorStocks(err.response?.data?.error ||   err.response?.data?.detail ||"Error creating stock");
+    } finally {
+      setLoadingStocks(false);
+    }
+  };
+
+  // Update Stock
+  const updateStock = async ({ id, data }) => {
+    setLoadingStocks(true);
+    setErrorStocks(null);
+    try {
+      const response = await api.put(`/store/stocks/${id}/`, data);
+      fetchStocks();
+      return response.data;
+    } catch (err) {
+      setErrorStocks(err.response?.data?.error || "Error updating stock");
+    } finally {
+      setLoadingStocks(false);
+    }
+  };
+
+  // Delete Stock
+  const deleteStock = async (id) => {
+    setLoadingStocks(true);
+    setErrorStocks(null);
+    try {
+      const response = await api.delete(`/store/stocks/${id}/`);
+      fetchStocks();
+      return response.data;
+    } catch (err) {
+      setErrorStocks(err.response?.data?.error  || "Error deleting stock");
+    } finally {
+      setLoadingStocks(false);
     }
   };
 
@@ -174,11 +236,18 @@ export const StoreProvider = ({ children }) => {
         updateProduct,
         deleteProduct,
 
+        stocks,
+        fetchStocks,
+        createStock,
+        updateStock,
+        deleteStock,
 
         loadingCategories,
         errorCategories,
         loadingProducts,
         errorProducts,
+        loadingStocks,
+        errorStocks,
       }}
     >
       {children}

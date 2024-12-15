@@ -11,6 +11,7 @@ import { DashboardLayout } from "../Layout/DashboardLayout";
 import NotFound from "../pages/NotFound";
 import CreateProduct from "../components/product/CreateProduct";
 import CreateCategory from "../components/category/CreateCategory";
+import CreateProductStock from "../components/stock/CreateProductStock";
 
 export const router = createBrowserRouter([
   {
@@ -33,6 +34,7 @@ export const router = createBrowserRouter([
       { path: "/dashboard/category", element: <Category /> },
       { path: "/dashboard/create-category", element: <CreateCategory /> },
       { path: "/dashboard/stock", element: <Stock /> },
+      { path: "/dashboard/create-stock", element: <CreateProductStock /> },
     ],
   },
 ]);
