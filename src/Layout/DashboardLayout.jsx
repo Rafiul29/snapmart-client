@@ -7,8 +7,7 @@ import DashboardSidebarIcon from "../components/Dashboard/DashBoardSideBarIcon";
 import AuthContext from "../context/AuthContext";
 
 export const DashboardLayout = () => {
-
-  const { logout,  } = useContext(AuthContext);
+  const { logout } = useContext(AuthContext);
 
   const [isToggleSidebar, setToggleSidebar] = useState(false);
 
@@ -18,10 +17,12 @@ export const DashboardLayout = () => {
 
   const navigate = useNavigate();
 
-  const handleLogout =async()=>{
-    await logout(); 
-    navigate('/')
-  }
+  const handleLogout = async () => {
+    await logout();
+    navigate("/");
+  };
+
+  const user =JSON.parse(localStorage.getItem('user'))
 
   return (
     <>
@@ -52,10 +53,18 @@ export const DashboardLayout = () => {
                   <RiBarChartHorizontalLine />
                 </button> */}
               </div>
-
-              <button onClick={handleLogout} className=" px-5 py-2 rounded-md   text-cyan-900 border-2 border-cyan-500 hover:border-cyan-500 hover:text-cyan-100 hover:bg-cyan-500 duration-500 ">
-                Logout
-              </button>
+                  
+              <div className="flex justify-center items-center gap-10">
+                <p className="">
+                  {user.username}
+                </p>
+                <button
+                  onClick={handleLogout}
+                  className=" px-5 py-2 rounded-md   text-cyan-900 border-2 border-cyan-500 hover:border-cyan-500 hover:text-cyan-100 hover:bg-cyan-500 duration-500 "
+                >
+                  Logout
+                </button>
+              </div>
             </nav>
           </header>
           {/* This is where nested routes will be rendered */}
